@@ -1,5 +1,5 @@
 {
-    "name": "lusitanian/oauth",
+    "name": "ytokarchukova/oauth",
     "description": "PHP 5.3+ oAuth 1/2 Library",
     "keywords": ["oauth", "authentication", "authorization", "security"],
     "license": "MIT",
@@ -15,6 +15,10 @@
         {
             "name": "Elliot Chance",
             "email": "elliotchance@gmail.com"
+        },
+        {
+            "name": "Yulia Tokarchukova",
+            "email": "ytokarchukova@gmail.com"
         }
     ],
     "require": {
@@ -35,11 +39,6 @@
         "psr-0": {
             "OAuth": "src",
             "OAuth\\Unit": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1-dev"
         }
     }
 }

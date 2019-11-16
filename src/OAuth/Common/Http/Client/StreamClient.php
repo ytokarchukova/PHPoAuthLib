@@ -53,6 +53,7 @@ class StreamClient extends AbstractClient
         $extraHeaders['Connection'] = 'Connection: close';
 
         if (is_array($requestBody)) {
+        	$requestMono = $requestBody;
             $requestBody = http_build_query($requestBody, '', '&');
         }
         $extraHeaders['Content-length'] = 'Content-length: '.strlen($requestBody);
@@ -60,7 +61,33 @@ class StreamClient extends AbstractClient
         $context = $this->generateStreamContext($requestBody, $extraHeaders, $method);
 
         $level = error_reporting(0);
-        $response = file_get_contents($endpoint->getAbsoluteUri(), false, $context);
+
+        if ($endpoint->getAbsoluteUri() == 'https://www.linkedin.com/uas/oauth2/accessToken') {
+	        $mono = new \GuzzleHttp\Client();
+	        $mono_response = $mono->request('POST', $endpoint->getAbsoluteUri(), [
+		        'form_params' => $requestMono
+	        ]);
+
+	        $response = $mono_response->getBody()->getContents();
+
+        } else {
+
+        	$auth_token = str_replace('Authorization: Bearer ', '', $extraHeaders['Authorization']);
+
+	        $mono = new \GuzzleHttp\Client();
+
+	        parse_str($endpoint->getQuery(), $query);
+
+	        $query['oauth2_access_token'] = $auth_token;
+
+	        $mono_response = $mono->request('GET', $endpoint->getAbsoluteUri(), ['query' => $query]);
+
+	        $response = $mono_response->getBody()->getContents();
+
+        }
+
+        //$response = file_get_contents($endpoint->getAbsoluteUri(), false, $context);
+
         error_reporting($level);
         if (false === $response) {
             $lastError = error_get_last();

@@ -23,6 +23,7 @@ class Linkedin extends AbstractService
      * @link http://developer.linkedin.com/documents/authentication#granting
      */
     const SCOPE_R_BASICPROFILE      = 'r_basicprofile';
+    const SCOPE_R_LITEPROFILE       = 'r_liteprofile';
     const SCOPE_R_FULLPROFILE       = 'r_fullprofile';
     const SCOPE_R_EMAILADDRESS      = 'r_emailaddress';
     const SCOPE_R_NETWORK           = 'r_network';
@@ -43,7 +44,7 @@ class Linkedin extends AbstractService
         parent::__construct($credentials, $httpClient, $storage, $scopes, $baseApiUri, true);
 
         if (null === $baseApiUri) {
-            $this->baseApiUri = new Uri('https://api.linkedin.com/v1/');
+            $this->baseApiUri = new Uri('https://api.linkedin.com/v2/');
         }
     }
 
